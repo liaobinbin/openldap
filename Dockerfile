@@ -16,12 +16,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
     dpkg-reconfigure locales
 
-ENV LDAP_ORGANIZATION=fovea.cc \
-    LDAP_DOMAIN=fovea.cc \
-    LDAP_PASSWORD1=changeme \
-    LDAP_PASSWORD2=changeme \
-    LDAP_GENERATED_ADMINPW=changeme \
-    LDAP_ADMINPW=changeme
+ENV LDAP_ORGANIZATION="The Company, INC" \
+    LDAP_DOMAIN=example.com \
+    LDAP_PASSWORD=changeme
 
 COPY start.sh /start.sh
 
