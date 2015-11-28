@@ -4,7 +4,6 @@ set -e
 
 if [ ! -e /.setup ]; then
     echo "Setting up slapd config"
-
     cat << EOF | debconf-set-selections
 slapd slapd/internal/generated_adminpw password ${LDAP_PASSWORD}
 slapd slapd/internal/adminpw password ${LDAP_PASSWORD}
@@ -18,9 +17,11 @@ slapd slapd/move_old_database boolean true
 slapd slapd/allow_ldap_v2 boolean false
 slapd slapd/no_configuration boolean false
 slapd slapd/dump_database select when needed
+
 EOF
     #slapd slapd/dump_database_destdir string /var/backups/slapd-VERSION
 
+    echo "Reconfigure"
     dpkg-reconfigure -f noninteractive slapd
 
     echo "Prepare functiondirectory schemas"
@@ -37,4 +38,24 @@ EOF
     touch /.setup
 fi
 
-/usr/sbin/slapd -h 'ldap:/// ldapi:///' -u openldap -g openldap -d 0
+echo "Start slapd"
+/usr/sbin/slapd -h 'ldap:/// ldapi:///' -u openldap -g openldap -d `expr 32 + 64 + 128 + 256 + 512`
+#
+# The OpenLDAP logging level:
+#
+#   -1  enable all debugging
+#    0  no debugging
+#    1  trace function calls
+#    2  debug packet handling
+#    4  heavy trace debugging
+#    8  connection management
+#   16  print out packets sent and received
+#   32  search filter processing
+#   64  configuration file processing
+#  128  access control list processing
+#  256  stats log connections/operations/results
+#  512  stats log entries sent
+# 1024  print communication with shell backends
+# 2048  print entry parsing debugging
+#
+
