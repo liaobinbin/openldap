@@ -12,13 +12,15 @@ ENV SLAPD_VERSION=2.4.40+dfsg-1+deb8u1 \
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     export LC_ALL=en_US.UTF-8 && \
+    export LANG=C && \
+    export LANGUAGE=C && \
     apt-get update && \
     apt-get install -y software-properties-common gnupg && \
     gpg --keyserver keys.gnupg.net --recv-keys E184859262B4981F && \
     gpg -a --export E184859262B4981F | apt-key add - && \
     add-apt-repository 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' && \
-    apt-get update && \
-    apt-get install -y slapd=${SLAPD_VERSION} ldap-utils dialog locales ldap-utils && \
+    apt-get update &&
+    apt-get install -y slapd=${SLAPD_VERSION} ldap-utils dialog locales ldap-utils \
         fusiondirectory-schema=${FUSIONDIRECTORY_DEB_PKG_VERSION} \
         fusiondirectory-plugin-mail-schema=${FUSIONDIRECTORY_DEB_PKG_VERSION} && \
     rm -rf /var/lib/apt/lists/* && \
