@@ -24,8 +24,8 @@ EOF
     echo "Reconfigure"
     dpkg-reconfigure -f noninteractive slapd
 
-    echo "Prepare functiondirectory schemas"
-    (sleep 2;
+    (sleep 4;
+        echo "Prepare functiondirectory schemas"
         fusiondirectory-insert-schema;
         fusiondirectory-insert-schema --insert \
             /etc/ldap/schema/fusiondirectory/mail-fd.schema \
@@ -39,7 +39,7 @@ EOF
 fi
 
 echo "Start slapd"
-/usr/sbin/slapd -h 'ldap:/// ldapi:///' -u openldap -g openldap -d `expr 32 + 64 + 128 + 256 + 512`
+/usr/sbin/slapd -h 'ldap:/// ldapi:///' -u openldap -g openldap -d `expr 64 + 256 + 512`
 #
 # The OpenLDAP logging level:
 #
