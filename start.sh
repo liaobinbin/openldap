@@ -2,7 +2,7 @@
 
 set -e
 
-if [ ! -e /.setup ]; then
+if [ ! -e /var/lib/ldap/.setup ]; then
     echo "Setting up slapd config"
     cat << EOF | debconf-set-selections
 slapd slapd/internal/generated_adminpw password ${LDAP_PASSWORD}
@@ -35,7 +35,7 @@ EOF
             /etc/ldap/schema/fusiondirectory/systems-fd-conf.schema
     ) &
 
-    touch /.setup
+    touch /var/lib/ldap/.setup
 fi
 
 echo "Start slapd"
