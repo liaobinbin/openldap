@@ -27,6 +27,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
     dpkg-reconfigure locales
 
+RUN mv /etc/ldap /etc/ldap.dist
+
+VOLUME /etc/ldap
+
 COPY start.sh /start.sh
 
 ENTRYPOINT ["/start.sh"]

@@ -1,9 +1,17 @@
 #!/bin/sh
 
+# When not limiting the open file descritors limit, the memory consumption of
+# slapd is absurdly high. See https://github.com/docker/docker/issues/8231
+ulimit -n 8192
+
 set -e
 
-if [ ! -e /var/lib/ldap/.setup ]; then
+chown -R openldap:openldap /var/lib/ldap/ /var/run/slapd/
+
+if [ ! -e /etc/ldap/ready ]; then
     echo "Setting up slapd config"
+    cp -a /etc/ldap.dist/* /etc/ldap
+
     cat << EOF | debconf-set-selections
 slapd slapd/internal/generated_adminpw password ${LDAP_PASSWORD}
 slapd slapd/internal/adminpw password ${LDAP_PASSWORD}
@@ -35,7 +43,7 @@ EOF
             /etc/ldap/schema/fusiondirectory/systems-fd-conf.schema
     ) &
 
-    touch /var/lib/ldap/.setup
+    touch /etc/ldap/ready
 fi
 
 echo "Start slapd"
