@@ -4,8 +4,8 @@ EXPOSE 389
 
 VOLUME /var/lib/ldap
 
-ENV SLAPD_VERSION=2.4.40+dfsg-1+deb8u1 \
-    FUSIONDIRECTORY_DEB_PKG_VERSION=1.0.9.1-1 \
+ENV SLAPD_VERSION=2.4.40+dfsg-1+deb8u2 \
+    FUSIONDIRECTORY_DEB_PKG_VERSION=1.0.9.3-1 \
     LDAP_ORGANIZATION="The Company, INC" \
     LDAP_DOMAIN=example.com \
     LDAP_PASSWORD=changeme
@@ -18,7 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y software-properties-common gnupg && \
     gpg --keyserver keys.gnupg.net --recv-keys E184859262B4981F && \
     gpg -a --export E184859262B4981F | apt-key add - && \
-    add-apt-repository 'deb http://repos.fusiondirectory.org/debian-jessie jessie main' && \
+    add-apt-repository 'deb http://repos.fusiondirectory.org/official-releases/debian/fusiondirectory-109-jessie jessie main' && \
     apt-get update && \
     apt-get install -y slapd=${SLAPD_VERSION} ldap-utils dialog locales ldap-utils \
         fusiondirectory-schema=${FUSIONDIRECTORY_DEB_PKG_VERSION} \
