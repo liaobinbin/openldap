@@ -18,7 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y software-properties-common gnupg && \
     gpg --keyserver keys.gnupg.net --recv-keys E184859262B4981F && \
     gpg -a --export E184859262B4981F | apt-key add - && \
-    add-apt-repository 'deb http://repos.fusiondirectory.org/official-releases/debian/fusiondirectory-109-jessie jessie main' && \
+    add-apt-repository 'deb http://repos.fusiondirectory.org/fusiondirectory-releases/fusiondirectory-1.0.9/debian-jessie/ jessie main' && \
     apt-get update && \
     apt-get install -y slapd=${SLAPD_VERSION} ldap-utils dialog locales ldap-utils \
         fusiondirectory-schema=${FUSIONDIRECTORY_DEB_PKG_VERSION} \
