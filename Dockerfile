@@ -4,9 +4,11 @@ EXPOSE 389
 
 VOLUME /var/lib/ldap
 
+############################################################################
 # ENV SLAPD_VERSION=2.4.40+dfsg-1+deb8u2 \
 # slapd=2.4.40+dfsg-1+deb8u2 not found.
 # When using apt install `slapd=${version}` this way can't build docker imgaes
+#############################################################################
 
 ENV FUSIONDIRECTORY_DEB_PKG_VERSION=1.0.9.3-1 \
     LDAP_ORGANIZATION="The Company, INC" \
