@@ -4,8 +4,11 @@ EXPOSE 389
 
 VOLUME /var/lib/ldap
 
-ENV SLAPD_VERSION=2.4.40+dfsg-1+deb8u2 \
-    FUSIONDIRECTORY_DEB_PKG_VERSION=1.0.9.3-1 \
+# ENV SLAPD_VERSION=2.4.40+dfsg-1+deb8u2 \
+# slapd=2.4.40+dfsg-1+deb8u2 not found.
+# When using apt install `slapd=${version}` this way can't build docker imgaes
+
+ENV FUSIONDIRECTORY_DEB_PKG_VERSION=1.0.9.3-1 \
     LDAP_ORGANIZATION="The Company, INC" \
     LDAP_DOMAIN=example.com \
     LDAP_PASSWORD=changeme
@@ -20,7 +23,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     gpg -a --export E184859262B4981F | apt-key add - && \
     add-apt-repository 'deb http://repos.fusiondirectory.org/fusiondirectory-releases/fusiondirectory-1.0.9/debian-jessie/ jessie main' && \
     apt-get update && \
-    apt-get install -y slapd=${SLAPD_VERSION} ldap-utils dialog locales ldap-utils \
+    apt-get install -y slapd ldap-utils dialog locales ldap-utils \
         fusiondirectory-schema=${FUSIONDIRECTORY_DEB_PKG_VERSION} \
         fusiondirectory-plugin-mail-schema=${FUSIONDIRECTORY_DEB_PKG_VERSION} && \
     rm -rf /var/lib/apt/lists/* && \
